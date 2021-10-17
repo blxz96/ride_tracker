@@ -17,8 +17,8 @@ public class RestControllerTest {
 	public void testCreateRide(){
 		RestTemplate restTemplate = new RestTemplate();
 		Ride ride = new Ride();
-		ride.setName("The Abyss Path");
-		ride.setDuration(33);
+		ride.setName("The Enlightened Path");
+		ride.setDuration(44);
 		ride = restTemplate.postForObject("http://localhost:8080/ride_tracker/ride",ride, Ride.class);
 		System.out.println(ride);
 	}
@@ -65,5 +65,11 @@ public class RestControllerTest {
 	public void testDelete(){
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.delete("http://localhost:8080/ride_tracker/delete/14");
+	}
+
+	@Test(timeout=3000)
+	public void testException(){
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getForObject("http://localhost:8080/ride_tracker/test", Ride.class);
 	}
 }
