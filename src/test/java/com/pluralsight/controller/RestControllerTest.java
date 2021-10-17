@@ -17,7 +17,7 @@ public class RestControllerTest {
 	public void testCreateRide(){
 		RestTemplate restTemplate = new RestTemplate();
 		Ride ride = new Ride();
-		ride.setName("The Damned Path");
+		ride.setName("The Wicked Path");
 		ride.setDuration(13);
 		ride = restTemplate.postForObject("http://localhost:8080/ride_tracker/ride",ride, Ride.class);
 		System.out.println("Ride: " + ride);

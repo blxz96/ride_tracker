@@ -36,20 +36,25 @@ public class RideRepositoryImpl implements RideRepository {
 
 	@Override
 	public Ride createRide(Ride ride) {
-//		jdbcTemplate.update("insert into ride (name,duration) values (?,?)",ride.getName(),ride.getDuration());
 
-		KeyHolder keyHolder = new GeneratedKeyHolder();
-		jdbcTemplate.update(new PreparedStatementCreator() {
-			@Override
-			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-				PreparedStatement ps = connection.prepareStatement("insert into ride (name,duration) values (?,?)", new String[] {"id"});
-				ps.setString(1,ride.getName());
-				ps.setInt(2,ride.getDuration());
-				return ps;
-			}
-		},keyHolder);
+		//SimpleJdbcInsert way of doing things, like ORM
 
-		Number id = keyHolder.getKey();
+		SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
+		List<String> columns = new ArrayList<>();
+		columns.add("name");
+		columns.add("duration");
+
+		insert.setTableName("ride");
+		insert.setColumnNames(columns);
+
+		Map<String,Object> data = new HashMap<>();
+		data.put("name",ride.getName());
+		data.put("duration",ride.getDuration());
+
+		insert.setGeneratedKeyName("id");
+
+		Number id = insert.executeAndReturnKey(data);
+
 		return getRide(id.intValue());
 
 	}
