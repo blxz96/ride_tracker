@@ -29,4 +29,13 @@ public class Ride {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
+	@Override
+	public String toString() {
+		return "Ride{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", duration=" + duration +
+				'}';
+	}
 }
